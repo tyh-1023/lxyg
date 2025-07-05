@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索 - 蓝心易购</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .search-container {
+            max-width: 430px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        .search-header {
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .search-input-group {
+            display: flex;
+            align-items: center;
+            background: var(--bg-color);
+            border-radius: 12px;
+            padding: 8px 12px;
+            margin-bottom: 16px;
+        }
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            background: transparent;
+            color: var(--text-color);
+        }
+        .search-btn {
+            background: var(--theme-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .search-content {
+            padding: 16px;
+        }
+        .search-history {
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 12px;
+        }
+        .history-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .history-item {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .hot-search {
+            margin-bottom: 24px;
+        }
+        .hot-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .hot-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+        .hot-rank {
+            width: 20px;
+            height: 20px;
+            background: var(--theme-color);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        .hot-rank.top3 {
+            background: #ff6b6b;
+        }
+        .hot-text {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        .hot-count {
+            font-size: 12px;
+            color: var(--desc-color);
+        }
+        .search-results {
+            display: none;
+            padding: 16px;
+        }
+        .result-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            cursor: pointer;
+        }
+        .result-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+        .result-desc {
+            font-size: 14px;
+            color: var(--desc-color);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <div class="search-header">
+            <div class="search-input-group">
+                <input type="text" class="search-input" placeholder="搜索商品、品牌、功能..." id="searchInput">
+                <button class="search-btn" onclick="performSearch()">搜索</button>
+            </div>
+        </div>
+        
+        <div class="search-content" id="searchContent">
+            <div class="search-history">
+                <div class="section-title">搜索历史</div>
+                <div class="history-list">
+                    <div class="history-item">平板电脑</div>
+                    <div class="history-item">智能手表</div>
+                    <div class="history-item">运动鞋</div>
+                    <div class="history-item">蓝牙耳机</div>
+                </div>
+            </div>
+            
+            <div class="hot-search">
+                <div class="section-title">热门搜索</div>
+                <div class="hot-list">
+                    <div class="hot-item">
+                        <div class="hot-rank top3">1</div>
+                        <div class="hot-text">Redmi Pad</div>
+                        <div class="hot-count">12.5万</div>
+                    </div>
+                    <div class="hot-item">
+                        <div class="hot-rank top3">2</div>
+                        <div class="hot-text">智能手表</div>
+                        <div class="hot-count">8.9万</div>
+                    </div>
+                    <div class="hot-item">
+                        <div class="hot-rank top3">3</div>
+                        <div class="hot-text">运动鞋</div>
+                        <div class="hot-count">6.7万</div>
+                    </div>
+                    <div class="hot-item">
+                        <div class="hot-rank">4</div>
+                        <div class="hot-text">蓝牙耳机</div>
+                        <div class="hot-count">5.2万</div>
+                    </div>
+                    <div class="hot-item">
+                        <div class="hot-rank">5</div>
+                        <div class="hot-text">智能摄像头</div>
+                        <div class="hot-count">4.8万</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="search-results" id="searchResults">
+            <div class="section-title">搜索结果</div>
+            <div class="result-item">
+                <div class="result-title">Redmi Pad 4GB+128GB 平板电脑</div>
+                <div class="result-desc">性价比高，屏幕素质好，系统流畅，适合学习娱乐。2K高清全屏，护眼显示效果出色。</div>
+            </div>
+            <div class="result-item">
+                <div class="result-title">荣耀平板V7 6GB+128GB</div>
+                <div class="result-desc">大屏护眼，支持多窗口，适合记笔记。系统流畅，音质好，续航不错。</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <nav class="tabbar">
+        <a href="../index.html">首页</a>
+        <a href="community.html">交流圈</a>
+        <a href="search.html" class="active">搜索</a>
+        <a href="tieba.html">贴吧</a>
+        <a href="mine.html">我的</a>
+    </nav>
+    
+    <script>
+        function performSearch() {
+            const input = document.getElementById('searchInput');
+            const content = document.getElementById('searchContent');
+            const results = document.getElementById('searchResults');
+            
+            if (input.value.trim()) {
+                content.style.display = 'none';
+                results.style.display = 'block';
+            } else {
+                content.style.display = 'block';
+                results.style.display = 'none';
+            }
+        }
+        
+        // 回车搜索
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // 点击历史记录和热门搜索
+        document.querySelectorAll('.history-item, .hot-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const text = this.querySelector('.hot-text') ? 
+                    this.querySelector('.hot-text').textContent : 
+                    this.textContent;
+                document.getElementById('searchInput').value = text;
+                performSearch();
+            });
+        });
+    </script>
+</body>
+</html>

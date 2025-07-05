@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交流圈 - 蓝心易购</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .community-container {
+            max-width: 430px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        .community-header {
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .community-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .topic-tabs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .topic-tab {
+            background: var(--theme-color);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .topic-tab.active {
+            background: #ff6b6b;
+            transform: scale(1.05);
+        }
+        .post-list {
+            padding: 16px;
+        }
+        .post-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: transform 0.2s ease;
+        }
+        .post-item:hover {
+            transform: translateY(-2px);
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--theme-color);
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+        }
+        .user-info {
+            flex: 1;
+        }
+        .username {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        .post-time {
+            font-size: 12px;
+            color: var(--desc-color);
+        }
+        .post-content {
+            font-size: 15px;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .post-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .post-actions {
+            display: flex;
+            gap: 16px;
+        }
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--desc-color);
+            font-size: 14px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .action-btn:hover {
+            color: var(--theme-color);
+        }
+        .action-btn.liked {
+            color: #ff6b6b;
+        }
+        .post-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .post-tag {
+            background: rgba(58, 92, 255, 0.1);
+            color: var(--theme-color);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        .floating-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: var(--theme-color);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(58, 92, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+        .comment-section {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .comment-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .comment-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--theme-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .comment-content {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        .comment-username {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--desc-color);
+        }
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="community-container">
+        <div class="community-header">
+            <div class="community-title">交流圈</div>
+            <div class="topic-tabs">
+                <button class="topic-tab active" onclick="switchTab('hot')">热门</button>
+                <button class="topic-tab" onclick="switchTab('new')">最新</button>
+                <button class="topic-tab" onclick="switchTab('follow')">关注</button>
+            </div>
+        </div>
+        
+        <div class="post-list" id="postList">
+            <div class="post-item" data-tab="hot">
+                <div class="post-header">
+                    <div class="user-avatar">张</div>
+                    <div class="user-info">
+                        <div class="username">张小明</div>
+                        <div class="post-time">2小时前</div>
+                    </div>
+                </div>
+                <div class="post-tags">
+                    <span class="post-tag">#平板电脑</span>
+                    <span class="post-tag">#Redmi</span>
+                </div>
+                <div class="post-content">
+                    刚买的Redmi Pad体验不错，屏幕很清晰，续航也很给力！推荐给需要平板的朋友们～
+                </div>
+                <img src="https://img14.360buyimg.com/n7/jfs/t1/123456/1.jpg" alt="平板" class="post-image">
+                <div class="post-actions">
+                    <div class="action-btn" onclick="toggleLike(this)">
+                        <span class="like-icon">👍</span> <span class="like-count">128</span>
+                    </div>
+                    <div class="action-btn" onclick="toggleComments(this)">
+                        💬 <span class="comment-count">32</span>
+                    </div>
+                    <div class="action-btn" onclick="sharePost(this)">
+                        📤 分享
+                    </div>
+                </div>
+                <div class="comment-section" style="display: none;">
+                    <div class="comment-item">
+                        <div class="comment-avatar">李</div>
+                        <div class="comment-content">
+                            <span class="comment-username">李小红</span>
+                            看起来不错，多少钱买的？
+                        </div>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-avatar">王</div>
+                        <div class="comment-content">
+                            <span class="comment-username">王大力</span>
+                            续航怎么样？能看多久视频？
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-item" data-tab="new">
+                <div class="post-header">
+                    <div class="user-avatar">李</div>
+                    <div class="user-info">
+                        <div class="username">李小红</div>
+                        <div class="post-time">4小时前</div>
+                    </div>
+                </div>
+                <div class="post-tags">
+                    <span class="post-tag">#智能手表</span>
+                    <span class="post-tag">#求推荐</span>
+                </div>
+                <div class="post-content">
+                    求推荐一款性价比高的智能手表，主要用来测心率和运动记录，预算1000以内。
+                </div>
+                <div class="post-actions">
+                    <div class="action-btn" onclick="toggleLike(this)">
+                        <span class="like-icon">👍</span> <span class="like-count">56</span>
+                    </div>
+                    <div class="action-btn" onclick="toggleComments(this)">
+                        💬 <span class="comment-count">18</span>
+                    </div>
+                    <div class="action-btn" onclick="sharePost(this)">
+                        📤 分享
+                    </div>
+                </div>
+                <div class="comment-section" style="display: none;">
+                    <div class="comment-item">
+                        <div class="comment-avatar">张</div>
+                        <div class="comment-content">
+                            <span class="comment-username">张小明</span>
+                            小米手环7 Pro不错，性价比很高
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-item" data-tab="hot">
+                <div class="post-header">
+                    <div class="user-avatar">王</div>
+                    <div class="user-info">
+                        <div class="username">王大力</div>
+                        <div class="post-time">6小时前</div>
+                    </div>
+                </div>
+                <div class="post-tags">
+                    <span class="post-tag">#购物技巧</span>
+                    <span class="post-tag">#避坑指南</span>
+                </div>
+                <div class="post-content">
+                    分享一个购物小技巧：买电子产品前先看差评，了解真实使用体验，避免踩坑！
+                </div>
+                <div class="post-actions">
+                    <div class="action-btn" onclick="toggleLike(this)">
+                        <span class="like-icon">👍</span> <span class="like-count">89</span>
+                    </div>
+                    <div class="action-btn" onclick="toggleComments(this)">
+                        💬 <span class="comment-count">45</span>
+                    </div>
+                    <div class="action-btn" onclick="sharePost(this)">
+                        📤 分享
+                    </div>
+                </div>
+                <div class="comment-section" style="display: none;">
+                    <div class="comment-item">
+                        <div class="comment-avatar">赵</div>
+                        <div class="comment-content">
+                            <span class="comment-username">赵小美</span>
+                            太有用了！我就是这样避免了很多坑
+                        </div>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-avatar">孙</div>
+                        <div class="comment-content">
+                            <span class="comment-username">孙小强</span>
+                            差评也要看真假，有些是恶意差评
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-item" data-tab="new">
+                <div class="post-header">
+                    <div class="user-avatar">赵</div>
+                    <div class="user-info">
+                        <div class="username">赵小美</div>
+                        <div class="post-time">8小时前</div>
+                    </div>
+                </div>
+                <div class="post-tags">
+                    <span class="post-tag">#蓝牙耳机</span>
+                    <span class="post-tag">#体验分享</span>
+                </div>
+                <div class="post-content">
+                    入手了AirPods Pro，降噪效果真的很棒！在地铁上听音乐完全不会被噪音干扰。
+                </div>
+                <div class="post-actions">
+                    <div class="action-btn" onclick="toggleLike(this)">
+                        <span class="like-icon">👍</span> <span class="like-count">234</span>
+                    </div>
+                    <div class="action-btn" onclick="toggleComments(this)">
+                        💬 <span class="comment-count">67</span>
+                    </div>
+                    <div class="action-btn" onclick="sharePost(this)">
+                        📤 分享
+                    </div>
+                </div>
+            </div>
+            
+            <div class="post-item" data-tab="follow">
+                <div class="post-header">
+                    <div class="user-avatar">孙</div>
+                    <div class="user-info">
+                        <div class="username">孙小强</div>
+                        <div class="post-time">10小时前</div>
+                    </div>
+                </div>
+                <div class="post-tags">
+                    <span class="post-tag">#运动鞋</span>
+                    <span class="post-tag">#跑步</span>
+                </div>
+                <div class="post-content">
+                    新买的Nike Air Zoom跑鞋，缓震效果很好，跑起来很舒服，推荐给喜欢跑步的朋友！
+                </div>
+                <img src="https://img14.360buyimg.com/n7/jfs/t1/654321/3.jpg" alt="运动鞋" class="post-image">
+                <div class="post-actions">
+                    <div class="action-btn" onclick="toggleLike(this)">
+                        <span class="like-icon">👍</span> <span class="like-count">156</span>
+                    </div>
+                    <div class="action-btn" onclick="toggleComments(this)">
+                        💬 <span class="comment-count">42</span>
+                    </div>
+                    <div class="action-btn" onclick="sharePost(this)">
+                        📤 分享
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 发布按钮 -->
+        <button class="floating-btn" onclick="showPublishModal()">✏️</button>
+    </div>
+    
+    <!-- 发布模态框 -->
+    <div id="publishModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: var(--card-bg); border-radius: 18px 18px 0 0; padding: 20px; max-width: 430px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0; color: var(--text-color);">发布动态</h3>
+                <button onclick="hidePublishModal()" style="background: none; border: none; font-size: 24px; color: var(--desc-color); cursor: pointer;">×</button>
+            </div>
+            <textarea id="postContent" placeholder="分享你的购物心得..." style="width: 100%; height: 120px; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; resize: none; font-family: inherit; margin-bottom: 16px;"></textarea>
+            <div style="display: flex; gap: 12px;">
+                <button onclick="addImage()" style="flex: 1; background: var(--theme-color); color: #fff; border: none; padding: 12px; border-radius: 8px; cursor: pointer;">📷 添加图片</button>
+                <button onclick="publishPost()" style="flex: 1; background: #ff6b6b; color: #fff; border: none; padding: 12px; border-radius: 8px; cursor: pointer;">发布</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <nav class="tabbar">
+        <a href="../index.html">首页</a>
+        <a href="community.html" class="active">交流圈</a>
+        <a href="search.html">搜索</a>
+        <a href="tieba.html">贴吧</a>
+        <a href="mine.html">我的</a>
+    </nav>
+    
+    <script>
+        let currentTab = 'hot';
+        
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // 更新标签样式
+            document.querySelectorAll('.topic-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 显示对应标签的帖子
+            const posts = document.querySelectorAll('.post-item');
+            posts.forEach(post => {
+                if (tab === 'follow' && post.dataset.tab === 'follow') {
+                    post.style.display = 'block';
+                } else if (tab === 'new' && post.dataset.tab === 'new') {
+                    post.style.display = 'block';
+                } else if (tab === 'hot' && post.dataset.tab === 'hot') {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+            
+            // 检查是否有内容显示
+            const visiblePosts = document.querySelectorAll('.post-item[style="display: block"]');
+            if (visiblePosts.length === 0) {
+                showEmptyState();
+            } else {
+                hideEmptyState();
+            }
+        }
+        
+        function showEmptyState() {
+            const postList = document.getElementById('postList');
+            if (!document.querySelector('.empty-state')) {
+                const emptyState = document.createElement('div');
+                emptyState.className = 'empty-state';
+                emptyState.innerHTML = `
+                    <div class="empty-icon">😴</div>
+                    <div>暂无内容</div>
+                `;
+                postList.appendChild(emptyState);
+            }
+        }
+        
+        function hideEmptyState() {
+            const emptyState = document.querySelector('.empty-state');
+            if (emptyState) {
+                emptyState.remove();
+            }
+        }
+        
+        function toggleLike(btn) {
+            const likeIcon = btn.querySelector('.like-icon');
+            const likeCount = btn.querySelector('.like-count');
+            const count = parseInt(likeCount.textContent);
+            
+            if (btn.classList.contains('liked')) {
+                btn.classList.remove('liked');
+                likeIcon.textContent = '👍';
+                likeCount.textContent = count - 1;
+            } else {
+                btn.classList.add('liked');
+                likeIcon.textContent = '❤️';
+                likeCount.textContent = count + 1;
+            }
+        }
+        
+        function toggleComments(btn) {
+            const postItem = btn.closest('.post-item');
+            const commentSection = postItem.querySelector('.comment-section');
+            
+            if (commentSection.style.display === 'none') {
+                commentSection.style.display = 'block';
+            } else {
+                commentSection.style.display = 'none';
+            }
+        }
+        
+        function sharePost(btn) {
+            const postItem = btn.closest('.post-item');
+            const content = postItem.querySelector('.post-content').textContent;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: '蓝心易购交流圈',
+                    text: content,
+                    url: window.location.href
+                });
+            } else {
+                // 复制到剪贴板
+                navigator.clipboard.writeText(content).then(() => {
+                    alert('内容已复制到剪贴板');
+                });
+            }
+        }
+        
+        function showPublishModal() {
+            document.getElementById('publishModal').style.display = 'block';
+        }
+        
+        function hidePublishModal() {
+            document.getElementById('publishModal').style.display = 'none';
+            document.getElementById('postContent').value = '';
+        }
+        
+        function addImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    alert('图片已选择：' + file.name);
+                }
+            };
+            input.click();
+        }
+        
+        function publishPost() {
+            const content = document.getElementById('postContent').value.trim();
+            if (!content) {
+                alert('请输入内容');
+                return;
+            }
+            
+            // 创建新帖子
+            const newPost = createNewPost(content);
+            const postList = document.getElementById('postList');
+            postList.insertBefore(newPost, postList.firstChild);
+            
+            hidePublishModal();
+            alert('发布成功！');
+        }
+        
+        function createNewPost(content) {
+            const post = document.createElement('div');
+            post.className = 'post-item';
+            post.dataset.tab = 'new';
+            post.innerHTML = `
+                <div class="post-header">
+                    <div class="user-avatar">我</div>
+                    <div class="user-info">
+                        <div class="username">我</div>
+                        <div class="post-time">刚刚</div>
+                    </div>
+                </div>
+                <div class="post-content">${content}</div>
+                <div class="post-actions">
+                    <div class="action-btn" onclick="toggleLike(this)">
+                        <span class="like-icon">👍</span> <span class="like-count">0</span>
+                    </div>
+                    <div class="action-btn" onclick="toggleComments(this)">
+                        💬 <span class="comment-count">0</span>
+                    </div>
+                    <div class="action-btn" onclick="sharePost(this)">
+                        📤 分享
+                    </div>
+                </div>
+            `;
+            return post;
+        }
+        
+        // 初始化显示热门标签
+        document.addEventListener('DOMContentLoaded', function() {
+            switchTab('hot');
+        });
+    </script>
+</body>
+</html>

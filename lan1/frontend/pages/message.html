@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息 - 蓝心易购</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div id="message">
+        <h2>消息</h2>
+        <ul class="msg-list">
+            <li>数码产品拼单群 <span class="msg-date">05-11</span></li>
+            <li>智能家居交流群 <span class="msg-date">05-10</span></li>
+            <li>运动鞋晒单群 <span class="msg-date">05-09</span></li>
+            <li>智能手表答疑 <span class="msg-date">05-08</span></li>
+            <li>购物优惠爆料 <span class="msg-date">05-07</span></li>
+            <li>游戏装备交流群 <span class="msg-date">05-06</span></li>
+        </ul>
+    </div>
+    
+    <!-- 返回按钮 -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 100;">
+        <button onclick="history.back()" style="background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 18px;">←</button>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <nav class="tabbar">
+        <a href="../index.html">首页</a>
+        <a href="community.html">交流圈</a>
+        <a href="search.html">搜索</a>
+        <a href="tieba.html">贴吧</a>
+        <a href="mine.html">我的</a>
+    </nav>
+</body>
+</html>
+
+#message {
+    max-width: 430px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 24px 16px 80px 16px;
+    margin-top: 18px;
+}
+.msg-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.msg-list li {
+    font-size: 16px;
+    color: #333;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f3fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.msg-date {
+    color: #888;
+    font-size: 14px;
+} 

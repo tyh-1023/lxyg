@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蓝心易购</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 轮播图样式 */
+        .banner-section {
+            margin: 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .banner-container {
+            display: flex;
+            transition: transform 0.3s ease;
+        }
+        .banner-item {
+            min-width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, var(--theme-color), #5a7cff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .banner-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        .banner-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+        }
+        .banner-dot.active {
+            background: #fff;
+        }
+        
+        /* 功能入口样式 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 16px;
+        }
+        .feature-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .feature-item:hover {
+            transform: translateY(-2px);
+        }
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .feature-text {
+            font-size: 12px;
+            color: var(--text-color);
+        }
+        
+        /* 搜索框增强 */
+        .search-bar {
+            position: relative;
+            margin: 16px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 50px 12px 16px;
+            border: 2px solid var(--theme-color);
+            border-radius: 25px;
+            font-size: 16px;
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--theme-color);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        /* 快捷入口增强 */
+        .quick-entry {
+            display: flex;
+            gap: 12px;
+            margin: 16px;
+        }
+        .quick-btn {
+            flex: 1;
+            background: var(--card-bg);
+            border: 2px solid var(--theme-color);
+            color: var(--theme-color);
+            padding: 12px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .quick-btn:hover {
+            background: var(--theme-color);
+            color: #fff;
+        }
+        
+        /* 推荐标签增强 */
+        .tags {
+            display: flex;
+            gap: 8px;
+            margin: 16px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+        .tag {
+            background: rgba(58, 92, 255, 0.1);
+            color: var(--theme-color);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tag:hover {
+            background: var(--theme-color);
+            color: #fff;
+        }
+        
+        /* 筛选区块增强 */
+        .filter-section {
+            margin: 16px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .filter-group {
+            margin-bottom: 16px;
+        }
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+        .filter-label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: #f5f5f5;
+            color: var(--text-color);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .filter-btn.active {
+            background: var(--theme-color);
+            color: #fff;
+        }
+        .filter-btn:hover {
+            background: var(--theme-color);
+            color: #fff;
+        }
+        
+        /* 商品卡片增强 */
+        .recommend-list {
+            margin: 16px;
+        }
+        .recommend-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .recommend-card:hover {
+            transform: translateY(-2px);
+        }
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+        .card-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 8px;
+        }
+        .card-desc {
+            font-size: 14px;
+            color: var(--desc-color);
+            line-height: 1.5;
+        }
+        .card-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .action-btn {
+            flex: 1;
+            background: var(--theme-color);
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .action-btn:hover {
+            background: #5a7cff;
+        }
+        .action-btn.secondary {
+            background: #f5f5f5;
+            color: var(--text-color);
+        }
+        .action-btn.secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        /* 加载更多按钮 */
+        .load-more {
+            text-align: center;
+            margin: 20px 16px;
+        }
+        .load-more-btn {
+            background: var(--theme-color);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .load-more-btn:hover {
+            background: #5a7cff;
+        }
+        
+        /* 语音识别动画 */
+        .voice-animation {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .voice-wave {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            margin: 16px 0;
+        }
+        .wave-bar {
+            width: 4px;
+            background: #fff;
+            border-radius: 2px;
+            animation: wave 1s infinite;
+        }
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+        
+        @keyframes wave {
+            0%, 100% { height: 20px; }
+            50% { height: 40px; }
+        }
+        
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1/1;   /* 让图片始终正方形，兼容现代浏览器 */
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+            background: #f5f5f5;
+            display: block;
+        }
+        
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: flex-start;
+            padding: 10px;
+        }
+        
+        .product-card {
+            width: 46vw;
+            max-width: 180px;
+            min-width: 130px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #eee;
+            overflow: hidden;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column; /* 竖向排列 */
+            align-items: stretch;
+        }
+        
+        .product-info {
+            padding: 10px 8px 8px 8px;
+            display: flex;
+            flex-direction: column; /* 竖向排列 */
+            align-items: flex-start;
+        }
+        
+        .product-title {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #222;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .product-price {
+            color: #e53935;
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部LOGO和菜单 -->
+        <header class="header">
+            <div class="logo">
+                <img src="../assets/logo.png" alt="蓝心易购LOGO" onerror="this.style.display='none'">
+                <span class="brand">LxYG</span>
+            </div>
+            <div class="menu-icon" onclick="window.location.href='pages/settings.html'">☰</div>
+        </header>
+        
+        <!-- 轮播图 -->
+        <div class="banner-section">
+            <div class="banner-container" id="bannerContainer">
+                <div class="banner-item">🎉 新人专享优惠，全场8折起</div>
+                <div class="banner-item">📱 智能设备大促，限时抢购</div>
+                <div class="banner-item">🎁 购物满299元，免费包邮</div>
+            </div>
+            <div class="banner-dots" id="bannerDots">
+                <div class="banner-dot active"></div>
+                <div class="banner-dot"></div>
+                <div class="banner-dot"></div>
+            </div>
+        </div>
+        
+        <!-- 功能入口 -->
+        <div class="feature-grid">
+            <div class="feature-item" onclick="showFeature('ai')">
+                <div class="feature-icon">🤖</div>
+                <div class="feature-text">AI推荐</div>
+            </div>
+            <div class="feature-item" onclick="showFeature('compare')">
+                <div class="feature-icon">⚖️</div>
+                <div class="feature-text">商品对比</div>
+            </div>
+            <div class="feature-item" onclick="showFeature('history')">
+                <div class="feature-icon">📊</div>
+                <div class="feature-text">价格走势</div>
+            </div>
+            <div class="feature-item" onclick="showFeature('coupon')">
+                <div class="feature-icon">🎫</div>
+                <div class="feature-text">优惠券</div>
+            </div>
+        </div>
+        
+        <!-- 搜索框 -->
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="试试输入商品的名称、品牌、功能" onkeypress="handleSearch(event)">
+            <button class="search-btn" onclick="performSearch()">🔍</button>
+        </div>
+        
+        <!-- 快捷入口 -->
+        <div class="quick-entry">
+            <button class="quick-btn" onclick="startVoiceSearch()">🎤 语音输入</button>
+            <button class="quick-btn" onclick="startPhotoSearch()">📷 拍照搜索</button>
+        </div>
+        
+        <!-- 推荐标签 -->
+        <div class="tags">
+            <span class="tag" onclick="searchByTag('平板电脑性价比')">平板电脑性价比</span>
+            <span class="tag" onclick="searchByTag('运动鞋防滑款')">运动鞋防滑款</span>
+            <span class="tag" onclick="searchByTag('智能手表测心率')">智能手表测心率</span>
+            <span class="tag" onclick="searchByTag('智能摄像头监控')">智能摄像头监控</span>
+            <span class="tag" onclick="searchByTag('蓝牙耳机降噪')">蓝牙耳机降噪</span>
+            <span class="tag" onclick="searchByTag('空气净化器')">空气净化器</span>
+        </div>
+        
+        <!-- 筛选区块 -->
+        <section class="filter-section">
+            <div class="filter-group">
+                <span class="filter-label">品牌</span>
+                <div class="filter-buttons">
+                    <button class="filter-btn" onclick="filterByBrand('apple')">苹果</button>
+                    <button class="filter-btn" onclick="filterByBrand('huawei')">华为</button>
+                    <button class="filter-btn" onclick="filterByBrand('xiaomi')">小米</button>
+                    <button class="filter-btn active" onclick="filterByBrand('all')">全部</button>
+                </div>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">价格区间</span>
+                <div class="filter-buttons">
+                    <button class="filter-btn" onclick="filterByPrice('0-500')">0-500元</button>
+                    <button class="filter-btn" onclick="filterByPrice('500-1000')">500-1000元</button>
+                    <button class="filter-btn" onclick="filterByPrice('1000-2000')">1000-2000元</button>
+                    <button class="filter-btn active" onclick="filterByPrice('all')">全部</button>
+                </div>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">商品类型</span>
+                <div class="filter-buttons">
+                    <button class="filter-btn" onclick="filterByType('digital')">数码产品</button>
+                    <button class="filter-btn" onclick="filterByType('clothing')">服装鞋帽</button>
+                    <button class="filter-btn" onclick="filterByType('home')">家居用品</button>
+                    <button class="filter-btn active" onclick="filterByType('all')">全部</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 商品推荐卡片列表 -->
+        <section class="recommend-list" id="recommendList">
+            <div class="recommend-card" onclick="goToDetail(1)">
+                <img src="D:/Desktop/lan1/lan1/frontend/assets/images/1.png" alt="Redmi Pad" class="card-image">
+                <div class="card-title">Redmi Pad 4GB+128GB</div>
+                <div class="card-price">¥1299</div>
+                <div class="card-desc">优点：性价比高，屏幕素质好，系统流畅，适合学习娱乐<br>缺点：不支持手写笔，性能一般</div>
+                <div class="card-actions">
+                    <button class="action-btn" onclick="event.stopPropagation(); addToCart(1)">加入购物车</button>
+                    <button class="action-btn secondary" onclick="event.stopPropagation(); addToFavorite(1)">收藏</button>
+                </div>
+            </div>
+            
+            <div class="recommend-card" onclick="goToDetail(2)">
+                <img src="D:/Desktop/lan1/lan1/frontend/assets/images/2.png" alt="荣耀平板V7" class="card-image">
+                <div class="card-title">荣耀平板V7 6GB+128GB</div>
+                <div class="card-price">¥1499</div>
+                <div class="card-desc">优点：大屏护眼，支持多窗口，适合记笔记<br>缺点：处理器一般，重量略大</div>
+                <div class="card-actions">
+                    <button class="action-btn" onclick="event.stopPropagation(); addToCart(2)">加入购物车</button>
+                    <button class="action-btn secondary" onclick="event.stopPropagation(); addToFavorite(2)">收藏</button>
+                </div>
+            </div>
+            
+            <div class="recommend-card" onclick="goToDetail(3)">
+                <img src="D:/Desktop/lan1/lan1/frontend/assets/images/3.png" alt="小米手环7" class="card-image">
+                <div class="card-title">小米手环7 Pro</div>
+                <div class="card-price">¥399</div>
+                <div class="card-desc">优点：续航长，功能丰富，性价比高<br>缺点：屏幕较小，充电方式不便</div>
+                <div class="card-actions">
+                    <button class="action-btn" onclick="event.stopPropagation(); addToCart(3)">加入购物车</button>
+                    <button class="action-btn secondary" onclick="event.stopPropagation(); addToFavorite(3)">收藏</button>
+                </div>
+            </div>
+            
+            <div class="recommend-card" onclick="goToDetail(4)">
+                <img src="D:/Desktop/lan1/lan1/frontend/assets/images/4.png" alt="AirPods Pro" class="card-image">
+                <div class="card-title">AirPods Pro 2代</div>
+                <div class="card-price">¥1899</div>
+                <div class="card-desc">优点：降噪效果好，音质优秀，连接稳定<br>缺点：价格较高，续航一般</div>
+                <div class="card-actions">
+                    <button class="action-btn" onclick="event.stopPropagation(); addToCart(4)">加入购物车</button>
+                    <button class="action-btn secondary" onclick="event.stopPropagation(); addToFavorite(4)">收藏</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 加载更多按钮 -->
+        <div class="load-more">
+            <button class="load-more-btn" onclick="loadMoreProducts()">加载更多商品</button>
+        </div>
+        
+        <!-- 语音识别动画 -->
+        <div class="voice-animation" id="voiceAnimation">
+            <div>正在听您说话...</div>
+            <div class="voice-wave">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+            </div>
+            <button onclick="stopVoiceSearch()" style="background: #ff6b6b; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">停止</button>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <nav class="tabbar">
+        <a href="#" class="active">首页</a>
+        <a href="pages/community.html">交流圈</a>
+        <a href="pages/search.html">搜索</a>
+        <a href="pages/tieba.html">贴吧</a>
+        <a href="pages/mine.html">我的</a>
+    </nav>
+    
+    <script>
+        // 轮播图功能
+        let currentBanner = 0;
+        const banners = document.querySelectorAll('.banner-item');
+        const dots = document.querySelectorAll('.banner-dot');
+        
+        function showBanner(index) {
+            document.getElementById('bannerContainer').style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+        
+        function nextBanner() {
+            currentBanner = (currentBanner + 1) % banners.length;
+            showBanner(currentBanner);
+        }
+        
+        // 自动轮播
+        setInterval(nextBanner, 3000);
+        
+        // 点击圆点切换
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentBanner = index;
+                showBanner(currentBanner);
+            });
+        });
+        
+        // 搜索功能
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                window.location.href = `pages/search.html?q=${encodeURIComponent(query)}`;
+            }
+        }
+        
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        }
+        
+        function searchByTag(tag) {
+            window.location.href = `pages/search.html?q=${encodeURIComponent(tag)}`;
+        }
+        
+        // 语音搜索
+        function startVoiceSearch() {
+            document.getElementById('voiceAnimation').style.display = 'block';
+            // 模拟语音识别
+            setTimeout(() => {
+                const recognizedText = '平板电脑';
+                document.getElementById('searchInput').value = recognizedText;
+                document.getElementById('voiceAnimation').style.display = 'none';
+                performSearch();
+            }, 3000);
+        }
+        
+        function stopVoiceSearch() {
+            document.getElementById('voiceAnimation').style.display = 'none';
+        }
+        
+        // 拍照搜索
+        function startPhotoSearch() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    alert('正在识别图片中的商品...');
+                    // 模拟图片识别
+                    setTimeout(() => {
+                        const recognizedProduct = '智能手表';
+                        document.getElementById('searchInput').value = recognizedProduct;
+                        performSearch();
+                    }, 2000);
+                }
+            };
+            input.click();
+        }
+        
+        // 筛选功能
+        function filterByBrand(brand) {
+            updateFilterButtons(event.target, '.filter-buttons');
+            // 这里可以添加实际的筛选逻辑
+            console.log('筛选品牌:', brand);
+        }
+        
+        function filterByPrice(price) {
+            updateFilterButtons(event.target, '.filter-buttons');
+            console.log('筛选价格:', price);
+        }
+        
+        function filterByType(type) {
+            updateFilterButtons(event.target, '.filter-buttons');
+            console.log('筛选类型:', type);
+        }
+        
+        function updateFilterButtons(clickedBtn, containerSelector) {
+            const container = clickedBtn.closest(containerSelector);
+            container.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            clickedBtn.classList.add('active');
+        }
+        
+        // 功能入口
+        function showFeature(feature) {
+            const features = {
+                ai: 'AI智能推荐功能正在开发中...',
+                compare: '商品对比功能正在开发中...',
+                history: '价格走势功能正在开发中...',
+                coupon: '优惠券功能正在开发中...'
+            };
+            alert(features[feature]);
+        }
+        
+        // 商品操作
+        function goToDetail(id) {
+            window.location.href = `pages/detail.html?idx=${id}`;
+        }
+        
+        function addToCart(id) {
+            // 这里可以添加购物车逻辑
+            alert('已添加到购物车！');
+        }
+        
+        function addToFavorite(id) {
+            // 这里可以添加收藏逻辑
+            alert('已添加到收藏！');
+        }
+        
+        // 加载更多商品
+        function loadMoreProducts() {
+            const recommendList = document.getElementById('recommendList');
+            const newProducts = [
+                {
+                    id: 5,
+                    title: '华为MatePad Pro',
+                    price: '¥2999',
+                    image: 'https://img14.360buyimg.com/n7/jfs/t1/987654/5.jpg',
+                    desc: '优点：性能强劲，屏幕优秀，支持手写笔<br>缺点：价格较高，重量较大'
+                },
+                {
+                    id: 6,
+                    title: 'Nike Air Zoom跑鞋',
+                    price: '¥899',
+                    image: 'https://img14.360buyimg.com/n7/jfs/t1/654321/6.jpg',
+                    desc: '优点：缓震效果好，舒适度高<br>缺点：价格偏高，不耐磨'
+                }
+            ];
+            
+            newProducts.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'recommend-card';
+                card.onclick = () => goToDetail(product.id);
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.title}" class="card-image">
+                    <div class="card-title">${product.title}</div>
+                    <div class="card-price">${product.price}</div>
+                    <div class="card-desc">${product.desc}</div>
+                    <div class="card-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); addToCart(${product.id})">加入购物车</button>
+                        <button class="action-btn secondary" onclick="event.stopPropagation(); addToFavorite(${product.id})">收藏</button>
+                    </div>
+                `;
+                recommendList.appendChild(card);
+            });
+            
+            // 隐藏加载更多按钮
+            document.querySelector('.load-more').style.display = 'none';
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查是否有搜索参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('q');
+            if (searchQuery) {
+                document.getElementById('searchInput').value = searchQuery;
+            }
+        });
+    </script>
+</body>
+</html> 

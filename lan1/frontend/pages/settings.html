@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设置 - 蓝心易购</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="settings-container">
+        <h2>设置</h2>
+        <div class="setting-group">
+            <label>字体大小：</label>
+            <button>小</button>
+            <button class="active">中</button>
+            <button>大</button>
+        </div>
+        <div class="setting-group">
+            <label>主题颜色：</label>
+            <span class="color-dot" style="background:#3a5cff"></span>
+            <span class="color-dot" style="background:#4caf50"></span>
+            <span class="color-dot" style="background:#ffb300"></span>
+            <span class="color-dot" style="background:#e040fb"></span>
+            <span class="color-dot" style="background:#00bcd4"></span>
+            <span class="color-dot" style="background:#bdbdbd"></span>
+        </div>
+        <div class="setting-group">
+            <label>深色模式：</label>
+            <input type="checkbox">
+        </div>
+        <div class="setting-group">
+            <label>通知提醒：</label>
+            <input type="checkbox" checked>
+        </div>
+    </div>
+    
+    <!-- 返回按钮 -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 100;">
+        <button onclick="history.back()" style="background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 18px;">←</button>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <nav class="tabbar">
+        <a href="../index.html">首页</a>
+        <a href="community.html">交流圈</a>
+        <a href="search.html">搜索</a>
+        <a href="tieba.html">贴吧</a>
+        <a href="mine.html">我的</a>
+    </nav>
+    
+    <script src="../js/settings.js"></script>
+</body>
+</html> 

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贴吧 - 蓝心易购</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .tieba-container {
+            max-width: 430px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        .tieba-header {
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .tieba-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .category-nav {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 0 4px;
+        }
+        .category-item {
+            background: var(--theme-color);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .tieba-list {
+            padding: 16px;
+        }
+        .tieba-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            cursor: pointer;
+        }
+        .tieba-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+        .tieba-desc {
+            font-size: 14px;
+            color: var(--desc-color);
+            margin-bottom: 8px;
+        }
+        .tieba-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--desc-color);
+        }
+        .hot-posts {
+            padding: 16px;
+        }
+        .hot-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 16px;
+        }
+        .post-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .post-title {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+        .post-meta {
+            font-size: 12px;
+            color: var(--desc-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="tieba-container">
+        <div class="tieba-header">
+            <div class="tieba-title">贴吧</div>
+            <div class="category-nav">
+                <button class="category-item">数码</button>
+                <button class="category-item">家电</button>
+                <button class="category-item">服装</button>
+                <button class="category-item">美妆</button>
+                <button class="category-item">运动</button>
+                <button class="category-item">母婴</button>
+                <button class="category-item">家居</button>
+                <button class="category-item">汽车</button>
+            </div>
+        </div>
+        
+        <div class="tieba-list">
+            <div class="tieba-item">
+                <div class="tieba-name">数码产品吧</div>
+                <div class="tieba-desc">分享数码产品使用心得，交流购买经验</div>
+                <div class="tieba-stats">
+                    <span>👥 12.5万</span>
+                    <span>📝 今日: 156</span>
+                </div>
+            </div>
+            
+            <div class="tieba-item">
+                <div class="tieba-name">智能家居吧</div>
+                <div class="tieba-desc">智能家居产品讨论，让生活更智能</div>
+                <div class="tieba-stats">
+                    <span>👥 8.3万</span>
+                    <span>📝 今日: 89</span>
+                </div>
+            </div>
+            
+            <div class="tieba-item">
+                <div class="tieba-name">运动装备吧</div>
+                <div class="tieba-desc">运动装备推荐，健身达人聚集地</div>
+                <div class="tieba-stats">
+                    <span>👥 6.7万</span>
+                    <span>📝 今日: 67</span>
+                </div>
+            </div>
+            
+            <div class="tieba-item">
+                <div class="tieba-name">美妆护肤吧</div>
+                <div class="tieba-desc">美妆产品分享，护肤心得交流</div>
+                <div class="tieba-stats">
+                    <span>👥 15.2万</span>
+                    <span>📝 今日: 234</span>
+                </div>
+            </div>
+            
+            <div class="tieba-item">
+                <div class="tieba-name">母婴用品吧</div>
+                <div class="tieba-desc">母婴用品推荐，育儿经验分享</div>
+                <div class="tieba-stats">
+                    <span>👥 9.8万</span>
+                    <span>📝 今日: 123</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hot-posts">
+            <div class="hot-title">热门帖子</div>
+            <div class="post-item">
+                <div class="post-title">求推荐一款性价比高的平板电脑</div>
+                <div class="post-meta">数码产品吧 · 2小时前 · 回复 45</div>
+            </div>
+            <div class="post-item">
+                <div class="post-title">智能手表哪个品牌比较好？</div>
+                <div class="post-meta">数码产品吧 · 4小时前 · 回复 32</div>
+            </div>
+            <div class="post-item">
+                <div class="post-title">小米空气净化器使用体验分享</div>
+                <div class="post-meta">智能家居吧 · 6小时前 · 回复 28</div>
+            </div>
+            <div class="post-item">
+                <div class="post-title">运动鞋选购指南，新手必看</div>
+                <div class="post-meta">运动装备吧 · 8小时前 · 回复 56</div>
+            </div>
+            <div class="post-item">
+                <div class="post-title">护肤品成分解析，避免踩坑</div>
+                <div class="post-meta">美妆护肤吧 · 10小时前 · 回复 78</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <nav class="tabbar">
+        <a href="../index.html">首页</a>
+        <a href="community.html">交流圈</a>
+        <a href="search.html">搜索</a>
+        <a href="tieba.html" class="active">贴吧</a>
+        <a href="mine.html">我的</a>
+    </nav>
+</body>
+</html>

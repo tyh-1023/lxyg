@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的 - 蓝心易购</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .mine-container {
+            max-width: 430px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        .user-header {
+            background: var(--card-bg);
+            padding: 24px 16px;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--theme-color);
+            margin: 0 auto 16px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .username {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+        .user-level {
+            font-size: 14px;
+            color: var(--desc-color);
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--theme-color);
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--desc-color);
+            margin-top: 4px;
+        }
+        .menu-section {
+            margin: 16px;
+        }
+        .menu-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 12px;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .menu-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            cursor: pointer;
+        }
+        .menu-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .menu-text {
+            font-size: 12px;
+            color: var(--text-color);
+        }
+        .list-section {
+            margin: 16px;
+        }
+        .list-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            cursor: pointer;
+        }
+        .list-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+        .list-desc {
+            font-size: 14px;
+            color: var(--desc-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="mine-container">
+        <div class="user-header">
+            <div class="user-avatar">用</div>
+            <div class="username">用户名</div>
+            <div class="user-level">Lv.5 蓝心会员</div>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-number">128</div>
+                    <div class="stat-label">收藏</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">56</div>
+                    <div class="stat-label">关注</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">89</div>
+                    <div class="stat-label">粉丝</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">234</div>
+                    <div class="stat-label">积分</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-section">
+            <div class="menu-title">我的服务</div>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="menu-icon">👁️</div>
+                    <div class="menu-text">浏览历史</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">❤️</div>
+                    <div class="menu-text">我的收藏</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">🛒</div>
+                    <div class="menu-text">购物车</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">📦</div>
+                    <div class="menu-text">订单</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">📝</div>
+                    <div class="menu-text">我的帖子</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">💰</div>
+                    <div class="menu-text">优惠券</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">🎁</div>
+                    <div class="menu-text">积分商城</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">⚙️</div>
+                    <div class="menu-text">设置</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="list-section">
+            <div class="menu-title">最近浏览</div>
+            <div class="list-item">
+                <div class="list-title">Redmi Pad 4GB+128GB</div>
+                <div class="list-desc">浏览时间：2小时前</div>
+            </div>
+            <div class="list-item">
+                <div class="list-title">荣耀平板V7 6GB+128GB</div>
+                <div class="list-desc">浏览时间：昨天</div>
+            </div>
+            <div class="list-item">
+                <div class="list-title">智能手表推荐</div>
+                <div class="list-desc">浏览时间：3天前</div>
+            </div>
+        </div>
+        
+        <div class="list-section">
+            <div class="menu-title">我的帖子</div>
+            <div class="list-item">
+                <div class="list-title">分享一个购物小技巧</div>
+                <div class="list-desc">发布时间：2天前 · 点赞 89</div>
+            </div>
+            <div class="list-item">
+                <div class="list-title">Redmi Pad使用体验</div>
+                <div class="list-desc">发布时间：1周前 · 点赞 156</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <nav class="tabbar">
+        <a href="../index.html">首页</a>
+        <a href="community.html">交流圈</a>
+        <a href="search.html">搜索</a>
+        <a href="tieba.html">贴吧</a>
+        <a href="mine.html" class="active">我的</a>
+    </nav>
+</body>
+</html> 

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情 - 蓝心易购</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="detail-container" id="detailBox">
+        <!-- 内容由JS动态渲染 -->
+    </div>
+    
+    <!-- 返回按钮 -->
+    <div style="position: fixed; top: 20px; left: 20px; z-index: 100;">
+        <button onclick="history.back()" style="background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 18px;">←</button>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <nav class="tabbar">
+        <a href="../index.html">首页</a>
+        <a href="community.html">交流圈</a>
+        <a href="search.html">搜索</a>
+        <a href="tieba.html">贴吧</a>
+        <a href="mine.html">我的</a>
+    </nav>
+    <script type="module">
+    import { fetchProductDetail, fetchReviews, analyzeReviews } from '../js/api.js';
+    
+    // 获取URL参数
+    function getQuery(name) {
+      const m = location.search.match(new RegExp('(?:[?&]' + name + '=)([^&]*)'));
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+    
+    // 渲染详情页
+    async function renderDetail() {
+      const idx = parseInt(getQuery('idx'));
+      const product = await fetchProductDetail(idx);
+      
+      if (product) {
+        // 获取差评和AI分析
+        const reviewsData = await fetchReviews(product.name);
+        const analysisData = await analyzeReviews(reviewsData.reviews);
+        
+        document.getElementById('detailBox').innerHTML = `
+          <img class='detail-img' src='${product.img}' alt='${product.name}'>
+          <div class='detail-title'>${product.name}</div>
+          <div class='detail-price'>¥${product.price}.00</div>
+          <div class='detail-section'>
+            <h3>蓝心易购为你总结</h3>
+            <ul class='detail-adv'>${product.adv.map(i=>`<li>${i}</li>`).join('')}</ul>
+            <ul class='detail-disadv'>${product.disadv.map(i=>`<li>${i}</li>`).join('')}</ul>
+          </div>
+          <div class='detail-section'>
+            <h3>AI分析与建议</h3>
+            <div class='ai-analysis'>${analysisData.summary || product.ai}</div>
+          </div>
+          <button class='buy-btn'>去购买</button>
+        `;
+      } else {
+        document.getElementById('detailBox').innerHTML = `
+          <div style="text-align: center; padding: 50px 20px;">
+            <h3>商品不存在</h3>
+            <p>请返回首页重新选择商品</p>
+            <button onclick="history.back()" style="background: #3a5cff; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">返回</button>
+          </div>
+        `;
+      }
+    }
+    
+    // 页面加载完成后渲染
+    document.addEventListener('DOMContentLoaded', renderDetail);
+    </script>
+</body>
+</html> 
